@@ -1,0 +1,29 @@
+name: Build Aviator Predictor APK
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev cmake libffi-dev libssl-dev
+          pip install buildozer cython==0.29.36
+      - name: Build APK
+        run: |
+          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+          echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > ~/.[STRIPPED 71 bytes]"d56f5187479451eabf01fb78af6dfcb131a6481e" >> ~/.[STRIPPED 76 bytes] android debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: bin/*.apk
